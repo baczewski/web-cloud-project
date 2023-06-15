@@ -1,6 +1,8 @@
+import { LoginPage } from "./pages/login/LoginPage";
+
 const App = () => {
   return (
-    <div>TINKO</div>
+    <LoginPage />
   );
 };
 
