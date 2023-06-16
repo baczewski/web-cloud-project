@@ -1,0 +1,11 @@
+FROM node:latest
+
+RUN mkdir /home/server
+WORKDIR /home/server
+COPY ./package*.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD [ "npm", "run", "start" ]
