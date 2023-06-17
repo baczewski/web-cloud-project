@@ -3,4 +3,5 @@ export interface InputFieldProps {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
   type: string;
   value: string;
+  enableWarning?: boolean;
 };

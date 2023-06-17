@@ -1,16 +1,20 @@
 import { Input } from "@material-ui/core";
 import { InputFieldProps } from "./InputFieldProps";
+import styles from "./InputField.module.css";
 
 export const InputField = ({
   placeholder,
   onChange,
   type,
-  value
+  value,
+  enableWarning = false
 }: InputFieldProps
 ) => {
+  const { normal, warning } = styles;
+
   return (
     <Input
-      style={{color: "white", backgroundColor: "#525252", paddingLeft: "0.5rem", padding: "0.7rem"}}
+      className={`${normal} ${enableWarning ? warning : ""}`}
       placeholder={placeholder}
       onChange={onChange}
       type={type}
