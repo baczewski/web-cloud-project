@@ -1,1 +1,0 @@
-docker-compose --env-file .\.env.postgres --env-file .\.env.pgadmin up --build
