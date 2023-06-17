@@ -3,16 +3,18 @@ import { InputField } from "../../components/InputField/InputField";
 import { Button } from "@mui/material";
 import { login } from "./loginUtils";
 import { Link } from "react-router-dom";
-import "./LoginPage.css";
+import styles from "./LoginPage.module.css";
 
 export const LoginPage = () => {
+
+  const { container, loginContainer, register, registerLink }  = styles;
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    <div className="container">
-      <form className="login-container">
+    <div className={container}>
+      <form className={loginContainer}>
         <InputField
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(event.target.value)}
           placeholder="Username"
@@ -35,8 +37,8 @@ export const LoginPage = () => {
           }}>
           Login
         </Button>
-        <span className="register">
-          Don't have an account? <Link className="register-link" to="/register">Register here</Link>
+        <span className={register}>
+          Don't have an account? <Link className={registerLink} to="/register">Register here</Link>
         </span>
       </form>
     </div>

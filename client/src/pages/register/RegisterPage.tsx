@@ -2,18 +2,20 @@ import { useState } from "react";
 import { InputField } from "../../components/InputField/InputField";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import "./RegisterPage.css";
+import styles from './RegisterPage.module.css';
 
 
 export const RegisterPage = () => {
+
+  const { container, registerContainer, login, loginLink }  = styles;
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("")
 
   return (
-    <div className="container">
-      <form className="register-container">
+    <div className={container}>
+      <form className={registerContainer}>
         <InputField
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(event.target.value)}
           placeholder="Username"
@@ -42,8 +44,8 @@ export const RegisterPage = () => {
           }}>
           Register
         </Button>
-        <span className="login">
-          Already have an account? <Link className="login-link" to="/login">Log in here</Link>
+        <span className={login}>
+          Already have an account? <Link className={loginLink} to="/login">Log in here</Link>
         </span>
       </form>
     </div>

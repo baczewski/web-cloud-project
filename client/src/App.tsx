@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./pages/login/LoginPage";
 import { RegisterPage } from "./pages/register/RegisterPage";
-import "./index.css"
 import { MyAppBar } from "./components/AppBar/MyAppBar";
 
 
@@ -15,6 +14,7 @@ const App = () => {
         </Routes>
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/register" element={<div>IVAN</div>} />
         </Routes>
       </BrowserRouter>
     </>
