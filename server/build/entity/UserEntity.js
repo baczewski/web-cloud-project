@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
 const AbstractBaseEntity_1 = require("./AbstractBaseEntity");
+const NoteEntity_1 = require("./NoteEntity");
 let UserEntity = exports.UserEntity = class UserEntity extends AbstractBaseEntity_1.AbstractBaseEntity {
 };
 __decorate([
@@ -30,6 +31,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => NoteEntity_1.NoteEntity, (note) => note.user),
+    __metadata("design:type", Array)
+], UserEntity.prototype, "notes", void 0);
 exports.UserEntity = UserEntity = __decorate([
     (0, typeorm_1.Entity)({ name: "USER" }),
     (0, typeorm_1.Unique)(["email"])

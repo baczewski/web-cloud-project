@@ -1,10 +1,10 @@
-import { Entity, Column, Unique } from "typeorm"
+import { Entity, Column, Unique, OneToMany } from "typeorm"
 import { AbstractBaseEntity } from "./AbstractBaseEntity";
+import { NoteEntity } from "./NoteEntity";
 
 @Entity({ name: "USER" })
 @Unique(["email"])
 export class UserEntity extends AbstractBaseEntity {
-
     @Column({ nullable: false })
     email!: string
 
@@ -17,4 +17,6 @@ export class UserEntity extends AbstractBaseEntity {
     @Column({ nullable: false })
     password!: string
 
+    @OneToMany(() => NoteEntity, (note) => note.user)
+    notes!: NoteEntity[]
 }

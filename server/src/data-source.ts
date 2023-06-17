@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     // dropSchema: true,
     logging: false,
-    entities: [UserEntity],
+    entities: [UserEntity, NoteEntity, TodoEntity],
     migrations: [],
     subscribers: [],
 })
