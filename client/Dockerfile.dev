@@ -1,8 +1,10 @@
-FROM node:latest
+FROM node:alpine
+
+ENV NODE_ENV="development"
 
 RUN mkdir /home/client
 WORKDIR /home/client
-COPY ./package*.json ./
+COPY package.json .
 
 RUN npm install
 

@@ -3,11 +3,16 @@ version: '3.8'
 services:
 
   client:
-    container_name: react
+    hostname: client
+    container_name: react-dev
     build:
       context: ../client
-      dockerfile: Dockerfile
-    image: client
+      dockerfile: Dockerfile.dev
+    image: react-dev
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1 
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true 
     ports: 
       - 3000:3000
     networks:
@@ -15,14 +20,18 @@ services:
     depends_on:
       - postgres
       - server
+    volumes:      
+      - ../client:/home/client
+      - node_modules-client:/home/client/node_modules/
     restart: unless-stopped
 
   server:
-    container_name: express_server
+    hostname: server
+    container_name: express-server-dev
     build:
       context: ../server
-      dockerfile: Dockerfile
-    image: server
+      dockerfile: Dockerfile.dev
+    image: server-dev
     env_file:
       - ../server/.env.sample
     ports: 
@@ -31,6 +40,9 @@ services:
       - postgres
     depends_on:
       - postgres
+    volumes:
+      - ../server:/home/server
+      - node_modules-server:/home/server/node_modules/
     restart: unless-stopped
 
   postgres:
@@ -72,3 +84,5 @@ networks:
 volumes:
   postgres:
   pgadmin:
+  node_modules-client:
+  node_modules-server:
