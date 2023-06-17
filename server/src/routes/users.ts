@@ -11,15 +11,16 @@ userRoutes.post("/register", async (req: Request, res: Response) => {
   }
 
   const maybeUser = await userService.findUserByEmail(email);
-  if (maybeUser) {
-    return res.status(409).json({ message: "Email or username already exists" });
+
+  if (maybeUser.length !== 0) {
+    return res.status(409).json({ message: "Email already exists" });
   }
 
  try {
     await userService.registerUser({email, password, lastName, firstName});
-    return res.status(201);
+    return res.status(201).end();
  } catch (ex) {
-    return res.status(500).json({ message: ex})
+    return res.status(500).json({ message: ex })
  }
 });
 
@@ -30,19 +31,20 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Invalid body" });
   }
 
-  const currentUser = (await userService.findUserByEmail(email))[0];
+  const currentUser = await userService.findUserByEmail(email);
 
-  if (!currentUser) {
-    return res.status(400).json({ message: "Not valid email or password" });
+  console.log(currentUser);
+  if (currentUser.length === 0) {
+    return res.status(400).json({ message: "Not valid email" });
   }
-
-  const isPasswordCorrect = userService.isValidPassword(currentUser, password) 
+  
+  const isPasswordCorrect = userService.isValidPassword(currentUser[0], password) 
   
   if (!isPasswordCorrect) {
-    return res.status(400).json({ message: "Not valid email or password" });
+    return res.status(400).json({ message: "Not valid password" });
   }
 
-  const jwt = userService.generateJWT(currentUser);
+  const jwt = userService.generateJWT(currentUser[0]);
 
   return res.status(200).json({ jwt: jwt });
 });

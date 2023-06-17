@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: true,
-    // dropSchema: true,
+    dropSchema: true,
     logging: false,
     entities: [UserEntity, NoteEntity, TodoEntity],
     migrations: [],

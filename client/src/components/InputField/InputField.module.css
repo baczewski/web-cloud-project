@@ -1,0 +1,10 @@
+.normal {
+    color: white;
+    background-color: #525252;
+    padding-left: 0.5rem;
+    padding: 0.7rem
+}
+
+.warning {
+  border: red 1px solid;
+}
