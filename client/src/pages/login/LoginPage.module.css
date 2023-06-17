@@ -4,7 +4,7 @@
   background-color: #353535;
 }
 
-.register-container {
+.loginContainer {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -18,14 +18,14 @@
   background-color: #2c2c2c;
 }
 
-.login {
+.register {
   color: #fff;
 }
 
-.login-link {
+.registerLink {
   color: yellow;
 }
 
-.login-link:hover {
+.register-link:hover {
   color: red;
 }
