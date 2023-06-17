@@ -21,6 +21,12 @@ class UserService {
       UserEntity.save(user);
     }
 
+    public async findUserById(userId: string) {
+      return UserEntity.findOneBy({ 
+        id: userId 
+      })
+    }
+
     generateJWT(currentUser: UserEntity) {
       const tokenBody = {
         user_id: currentUser.id,
