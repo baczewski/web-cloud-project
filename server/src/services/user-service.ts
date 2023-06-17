@@ -1,7 +1,6 @@
 import { UserEntity } from "../entity/UserEntity";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { randomUUID } from "crypto";
 
 interface UserRegisterSchema {
   email: string;
@@ -10,21 +9,16 @@ interface UserRegisterSchema {
   password: string;
 };
 
-interface UserLoginSchema {
-  email: string;
-  password: string;
-};
-
 class UserService {
     async registerUser(input: UserRegisterSchema) {
       const { email, firstName, lastName, password} = input;
-
 
       const hashedPassword = bcrypt.hashSync(password, Number(process.env.SALT_ROUNDS) ?? 10);
 
       const newUser = {email, firstName, lastName, password: hashedPassword, createdAt: new Date(), updatedAt: new Date()};
 
-      UserEntity.create(newUser as UserEntity)
+      const user = UserEntity.create(newUser as UserEntity);
+      UserEntity.save(user);
     }
 
     generateJWT(currentUser: UserEntity) {
@@ -35,14 +29,8 @@ class UserService {
         lastName: currentUser.lastName
       }
     
-      const token = jwt.sign(tokenBody,
-        process.env.JWT_TOKEN ?? randomUUID(),
-        {
-          expiresIn: "8h",
-        }
-      );
       return jwt.sign(tokenBody,
-        process.env.JWT_TOKEN ?? randomUUID(),
+        "TINKO",
         {
           expiresIn: "8h",
         }
