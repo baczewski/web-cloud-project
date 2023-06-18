@@ -1,8 +1,6 @@
 import { Container, InputLabel } from '@material-ui/core';
-import { Type } from '../../utils/Type';
 
 interface DetailsProps {
-    type: Type,
     title: string
 }
 

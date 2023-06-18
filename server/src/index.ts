@@ -11,7 +11,7 @@ import { fetchAndCheckTodos } from './services/reminder-service';
 dotenv.config();
 
 AppDataSource.initialize().then(async () => {
-    app.use('todos', todoRouter);
+    app.use('/todos', todoRouter);
     app.use('/notes', notesRouter);
     app.use('/', userRoutes);
 });
