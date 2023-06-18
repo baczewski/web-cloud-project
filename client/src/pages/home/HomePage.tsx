@@ -1,13 +1,37 @@
+import { Container, Fab, Typography } from '@material-ui/core';
 import { Note } from '../../components/Note/Note';
 import { useStyles } from './HomePageStyles';
+import AddIcon from '@mui/icons-material/Add';
+import { useState } from 'react';
+import CreateModal from '../../components/CreateModal/CreateModal';
 
 const HomePage = () => {
+    const [showModal, setShowModal] = useState(false);
+
     const classes = useStyles();
 
     return (
         <main className={classes.content}>
+            <CreateModal 
+                open={showModal} 
+                onClose={() => setShowModal(false)} 
+            />
             <div className={classes.toolbar} />
-            <Note />
+            <Container className={classes.notesWrapper}>
+                <Note />
+                <Note /><Note /><Note /><Note /><Note /><Note /><Note /><Note /><Note />
+            </Container>
+            <Fab 
+                variant="extended" 
+                color="primary" 
+                className={classes.buttonWrapper} 
+                onClick={() => setShowModal(true)}
+            >
+                <AddIcon className={classes.bottonIcon} />
+                <Typography>
+                    Add Note
+                </Typography>
+            </Fab>
         </main>
     );
 };

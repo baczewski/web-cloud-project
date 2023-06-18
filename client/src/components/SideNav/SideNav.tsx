@@ -8,15 +8,33 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import NotesIcon from '@mui/icons-material/Notes';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { useStyles } from './SideNavStyles';
+import { makeStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
+const useStyles = makeStyles(() => ({
+    drawer: {
+        width: 240,
+        flexShrink: 0
+    },
+    drawerPaper: {
+        width: 240,
+        marginTop: 60
+    },
+    navHeader: {
+        height: 60
+    },
+    link: {
+        textDecoration: 'none',
+        color: 'black'
+    }
+}));
 
 const SideNav = () => {
     const classes = useStyles();
 
     return (
         <>
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={classes.navHeader}>
                 <Toolbar>
                     <Typography variant="h6" noWrap>
                         My App
@@ -30,20 +48,23 @@ const SideNav = () => {
                     paper: classes.drawerPaper,
                 }}
             >
-                <div className={classes.toolbar} />
                 <List>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <NotesIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Notes" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <AssignmentIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Assignemnts" />
-                    </ListItem>
+                    <Link to='/notes' className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <NotesIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Notes" />
+                        </ListItem>
+                    </Link>
+                    <Link to='/assignments' className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <AssignmentIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Assignments" />
+                        </ListItem>
+                    </Link>
                 </List>
             </Drawer>
         </>
