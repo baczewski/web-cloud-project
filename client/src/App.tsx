@@ -5,6 +5,7 @@ import HomePage from "./pages/home/HomePage";
 import Layout from './components/Layout/Layout';
 import { useStyles } from './AppStyles';
 import Details from './components/Details/Details';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const App = () => {
   const classes = useStyles();
@@ -15,9 +16,11 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route element={<Layout />}>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/details" element={<Details />} />
+          <Route element={<PrivateRoute />} >
+            <Route element={<Layout />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/details" element={<Details />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
