@@ -3,7 +3,8 @@ import { useStyles } from './HomePageStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import CreateModal from '../../components/CreateModal/CreateModal';
-import { Box, Container, Fab, Typography } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
+import FloatingButton from '../../components/FloatingButton/FloatingButton';
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,17 +21,7 @@ const HomePage = () => {
                     <Note />
                     <Note /><Note /><Note /><Note /><Note /><Note /><Note /><Note /><Note />
                 </Container>
-                <Fab 
-                    variant="extended" 
-                    color="primary" 
-                    className={classes.buttonWrapper} 
-                    onClick={() => setShowModal(true)}
-                >
-                    <AddIcon className={classes.bottonIcon} />
-                    <Typography>
-                        Add Note
-                    </Typography>
-                </Fab>
+                <FloatingButton text='Add Note' icon={<AddIcon />} changeEvent={setShowModal} />
             </Box>
     );
 };
