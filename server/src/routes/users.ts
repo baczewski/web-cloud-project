@@ -35,13 +35,13 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
 
   console.log(currentUser);
   if (currentUser.length === 0) {
-    return res.status(400).json({ message: "Not valid email" });
+    return res.status(400).json({ message: "Not valid email or password" });
   }
   
   const isPasswordCorrect = userService.isValidPassword(currentUser[0], password) 
   
   if (!isPasswordCorrect) {
-    return res.status(400).json({ message: "Not valid password" });
+    return res.status(400).json({ message: "Not valid email or password" });
   }
 
   const jwt = userService.generateJWT(currentUser[0]);
