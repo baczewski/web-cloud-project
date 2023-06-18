@@ -29,3 +29,8 @@
 .loginLink:hover {
   color: red;
 }
+
+.failedRegisterText {
+  color: red;
+  font-weight: bold;
+}

@@ -29,3 +29,7 @@
 .register-link:hover {
   color: red;
 }
+
+.failedLoginText {
+  color: red;
+}
