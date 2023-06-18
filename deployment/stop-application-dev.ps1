@@ -10,8 +10,8 @@ if (${env-file}.Length -eq 0) {
     $defaultPostgresEnv = "$($projectPath)\deployment\.env.postgres"
     $defaultPGadminEnv = "$($projectPath)\deployment\.env.pgadmin"
 
-    docker-compose -f $composeFile --env-file $defaultPostgresEnv --env-file $defaultPGadminEnv up --build
+    docker-compose -f $composeFile --env-file $defaultPostgresEnv --env-file $defaultPGadminEnv down --rmi all -v
 }
 else {
-    docker-compose -f $composeFile --env-file ${env-file} up --build
+    docker-compose -f $composeFile --env-file ${env-file} down --rmi all -v
 }
