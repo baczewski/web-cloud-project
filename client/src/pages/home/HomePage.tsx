@@ -3,7 +3,7 @@ import { useStyles } from './HomePageStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import CreateModal from '../../components/CreateModal/CreateModal';
-import { Container, Fab, Typography } from '@material-ui/core';
+import { Box, Container, Fab, Typography } from '@material-ui/core';
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,7 +11,7 @@ const HomePage = () => {
   const classes = useStyles();
 
     return (
-            <>
+            <Box>
                 <CreateModal 
                     open={showModal} 
                     onClose={() => setShowModal(false)} 
@@ -31,7 +31,7 @@ const HomePage = () => {
                         Add Note
                     </Typography>
                 </Fab>
-            </>
+            </Box>
     );
 };
 

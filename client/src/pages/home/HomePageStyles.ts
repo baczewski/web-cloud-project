@@ -1,11 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    toolbar: theme.mixins.toolbar,
     bottonIcon: {
         marginRight: 5
     },
@@ -15,9 +10,9 @@ export const useStyles = makeStyles((theme) => ({
         right: 30
     },
     notesWrapper: {
-        display: 'flex',
+        display: 'flex !important',
         flexDirection: 'row',
-        gap: 20,
+        gap: 15,
         flexWrap: 'wrap'
     }
 }));
