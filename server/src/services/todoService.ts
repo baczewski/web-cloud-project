@@ -65,6 +65,10 @@ class TodoService {
             }
         });
     }
+
+    public async findAll(): Promise<TodoEntity[]> {
+        return TodoEntity.find();
+    }
 }
 
 export default new TodoService();

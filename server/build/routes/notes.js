@@ -8,11 +8,10 @@ const notes_service_1 = __importDefault(require("../services/notes-service"));
 const user = { id: 0, email: 'test@test.test' };
 const notesRouter = (0, express_1.Router)();
 notesRouter.get('/', async (req, res) => {
-    // const { limit, offset } = req.query;
     const limit = req.query.limit ?? 50;
     const offset = req.query.offset ?? 0;
     try {
-        const notes = await notes_service_1.default.getAllNotes({ limit: +limit, offset: +offset }, user.email);
+        const notes = await notes_service_1.default.getAllNotes({ limit: Number(limit), offset: Number(offset) }, user.email);
         return res.status(200).json({ notes });
     }
     catch (err) {

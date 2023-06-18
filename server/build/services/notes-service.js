@@ -48,10 +48,6 @@ class NotesService {
             .take(limit)
             .setParameters({ email })
             .getMany();
-        // const notes = await NoteEntity.find({
-        //     where: { user }
-        //     relations: { user: true }
-        // })
         return notes;
     }
     async getNote(input, email) {
