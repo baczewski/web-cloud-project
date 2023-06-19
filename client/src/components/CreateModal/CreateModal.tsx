@@ -1,6 +1,5 @@
 import { Box, Button, Input, InputLabel, Modal, TextField, TextareaAutosize, Typography, makeStyles } from "@material-ui/core";
 import { Fragment, useState } from "react";
-import { DatePicker } from '@mui/x-date-pickers';
 import { CreateModalProps } from "./types";
 
 const useStyles = makeStyles(() => ({
@@ -65,9 +64,9 @@ const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalP
 
     const handleOnSubmit = async (event: React.FormEvent<HTMLInputElement>) => {
         event.preventDefault();
-        
+
         const user = localStorage.getItem('user') ?? '';
-        const body = hasDateInput ? {title, dueDate: new Date(dueDate ?? Date.now()), description} : {title, description};
+        const body = hasDateInput ? { title, dueDate: new Date(dueDate ?? Date.now()), description } : { title, description };
 
         const response = await fetch(`http://localhost:8080/${type}`, {
             method: 'POST',
@@ -127,7 +126,7 @@ const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalP
                                 setDueDate(event.target.value)
                             }}
                             InputLabelProps={{
-                            shrink: true,
+                                shrink: true,
                             }}
                         />
                     }

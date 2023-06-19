@@ -5,13 +5,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
 import { DetailsProps } from './DetailsProps';
 import { useParams } from 'react-router-dom';
+import { EditModal } from '../EditModal/EditModal';
 
 const Details = () => {
     const { id } = useParams();
     const classes = useStyles();
 
-    const [edit, setEdit] = useState(false);
     const [noteDetails, setNoteDetails] = useState({} as DetailsProps);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const user = localStorage.getItem('user') ?? '';
@@ -42,7 +43,8 @@ const Details = () => {
                     <Typography variant='body1' className={classes.wordBreak}>
                         {noteDetails.description}
                     </Typography>
-                    <FloatingButton text='Edit' icon={<EditIcon />} changeEvent={setEdit} />
+                    <FloatingButton text='Edit' icon={<EditIcon />} changeEvent={setShowModal} />
+                    <EditModal details={noteDetails} updateDetailes={setNoteDetails} open={showModal} onClose={() => setShowModal(false)}/>
                 </>
             ) : <></> }
         </Container>

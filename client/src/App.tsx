@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage } from "./pages/login/LoginPage";
 import { RegisterPage } from "./pages/register/RegisterPage";
 import HomePage from "./pages/home/HomePage";
@@ -16,16 +16,17 @@ const App = () => {
     <div className={classes.root}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Navigate to="/notes" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-            <Route element={<Layout />}>
-              <Route element={<PrivateRoute />} >
-                <Route path="/assignments" element={<AssignmentPage />} />
-                <Route path="/notes" element={<HomePage />} />
-              </Route>
-              <Route path="/details/:id" element={<Details />} />
+          <Route element={<Layout />}>
+            <Route element={<PrivateRoute />} >
+              <Route path="/assignments" element={<AssignmentPage />} />
+              <Route path="/notes" element={<HomePage />} />
             </Route>
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/details/:id" element={<Details />} />
+          </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </div>
