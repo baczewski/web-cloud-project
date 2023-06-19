@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import NotesIcon from '@mui/icons-material/Notes';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     drawer: {
@@ -26,19 +26,40 @@ const useStyles = makeStyles(() => ({
     link: {
         textDecoration: 'none',
         color: 'black'
+    },
+    navbarWrapper: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    logout: {
+        cursor: 'pointer',
+        border: '1px solid black',
+        padding: '0.5rem',
+        '&:hover': {
+            backgroundColor: '#00008B',
+        },
     }
 }));
 
 const SideNav = () => {
+    const navigate = useNavigate();
     const classes = useStyles();
 
     return (
         <>
             <AppBar position="fixed" className={classes.navHeader}>
-                <Toolbar>
+                <Toolbar className={classes.navbarWrapper}>
                     <Typography variant="h6" noWrap>
                         My App
                     </Typography>
+                    <div
+                        className={classes.logout}
+                        onClick={() => {
+                            localStorage.clear();
+                            navigate('/login');
+                        }}
+                    >Logout</div>
                 </Toolbar>
             </AppBar>
             <Drawer
