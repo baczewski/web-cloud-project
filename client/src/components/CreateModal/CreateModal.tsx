@@ -1,4 +1,4 @@
-import { Box, Button, Input, InputLabel, Modal, TextareaAutosize, Typography, makeStyles } from "@material-ui/core";
+import { Box, Button, Input, InputLabel, Modal, TextField, TextareaAutosize, Typography, makeStyles } from "@material-ui/core";
 import { Fragment, useState } from "react";
 import { DatePicker } from '@mui/x-date-pickers';
 import { CreateModalProps } from "./types";
@@ -52,23 +52,28 @@ const useStyles = makeStyles(() => ({
 const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalProps) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [dueDate, setDueDate] = useState<Date | null>();
+    const [dueDate, setDueDate] = useState<string>();
 
     const classes = useStyles();
 
     const handleOnClose = () => {
         setTitle('');
         setDescription('');
+        setDueDate('');
         onClose();
     }
 
-    const handleOnSubmit = async () => {
-        const body = hasDateInput ? {title, dueDate, description} : {title, description};
+    const handleOnSubmit = async (event: React.FormEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        
+        const user = localStorage.getItem('user') ?? '';
+        const body = hasDateInput ? {title, dueDate: new Date(dueDate ?? Date.now()), description} : {title, description};
 
         const response = await fetch(`http://localhost:8080/${type}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user}`
             },
             body: JSON.stringify(body)
         });
@@ -114,10 +119,16 @@ const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalP
                         />
                     </Box>
                     {hasDateInput &&
-                        <DatePicker
-                            label="Controlled picker"
+                        <TextField
+                            label="Select Date"
+                            type="datetime-local"
                             value={dueDate}
-                            onChange={(newValue) => setDueDate(newValue)}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                setDueDate(event.target.value)
+                            }}
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
                         />
                     }
                     <Button

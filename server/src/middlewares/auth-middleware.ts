@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import userService from '../services/user-service';
+import { UserEntity } from '../entity/UserEntity';
 
 interface UserModel {
     user_id: string;
@@ -52,6 +53,6 @@ export default async function auth(request: Request, response: Response, next: (
     }
 }
 
-export function currentUser(response: Response): UserModel {
+export function currentUser(response: Response): UserEntity {
     return response.locals.user;
 }

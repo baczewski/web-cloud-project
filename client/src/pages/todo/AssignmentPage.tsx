@@ -8,27 +8,34 @@ import CreateModal from "../../components/CreateModal/CreateModal";
 import { FetchType } from "../../components/CreateModal/types";
 
 export const AssignmentPage = () => {
-  const fake = [{ id: "asd", title: "1", description: "asadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssd", dueDate: new Date() }, { id: "asd", title: "12", description: "asd", dueDate: new Date() }]
-
-  const [todos, setTodos] = useState<TodoInterface[]>(fake);
+  const [todos, setTodos] = useState<TodoInterface[]>([]);
   const [showModal, setShowModal] = useState(false);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/todos", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //     .then(res => res.json())
-  //     .then(todos => setTodos(todos))
-  // }, []);
+  useEffect(() => {
+    load();
+  }, []);
+
+  const load = () => {
+    const user = localStorage.getItem('user') ?? '';
+
+    fetch("http://localhost:8080/todos", {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user}`
+        },
+      })
+      .then(res => res.json())
+      .then(todos => setTodos(todos.todos))
+  }
+
+  console.log(todos);
 
   return (
     <Box>
       <h2>TODO List</h2>
       <List>
-        {todos.map((todo) => <Todo {...todo} />)}
+        {todos.map((todo) => <Todo {...todo} loadData={load}/>)}
       </List>
       <CreateModal
         open={showModal}
