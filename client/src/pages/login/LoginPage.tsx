@@ -9,7 +9,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const { updateGlobalState } = useContext(GlobalContext);
 
-  const { container, loginContainer, register, registerLink, failedLoginText } = styles;
+  const { container, loginContainer, register, registerLink, failedLoginText, button } = styles;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,11 +61,9 @@ export const LoginPage = () => {
         />
         <Button
           variant="contained"
-          style={{ backgroundColor: "white", color: "black", width: "50%", alignSelf: "center" }}
           onClick={(event) => {
             if (!password || !email) {
               window.alert("POPULNI")
-              // setEnableWarning(true);
               return;
             }
 
