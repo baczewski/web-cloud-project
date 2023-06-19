@@ -30,6 +30,7 @@ export const LoginPage = () => {
       if (response.ok) {
         response.json().then(data => {
           updateGlobalState(data);
+          localStorage.setItem('user', data);
           navigate("/home");
         });
       } else if (response.status === 400) {

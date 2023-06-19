@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { GlobalContextValue, GlobalState } from "./types";
 
 export const GlobalContext = createContext<GlobalContextValue>({
@@ -7,12 +7,12 @@ export const GlobalContext = createContext<GlobalContextValue>({
 });
 
 export const AppContextProvider = ({ children }: { children: JSX.Element }) => {
-  const [globalState, setGlobalState] = useState<GlobalState>({ jwt: "" });
+  const [globalState, setGlobalState] = useState<GlobalState>({ jwt: localStorage.getItem('user') ?? '' });
 
   const updateGlobalState = (newState: Partial<GlobalState>) => {
     setGlobalState((prevState) => ({
       ...prevState,
-      ...newState,
+      ...newState
     }));
   };
 
@@ -22,3 +22,7 @@ export const AppContextProvider = ({ children }: { children: JSX.Element }) => {
     </GlobalContext.Provider>
   );
 };
+
+export function useCurrentUser() {
+  return useContext(GlobalContext).globalState.jwt;   
+}
