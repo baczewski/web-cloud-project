@@ -7,6 +7,7 @@ import { useStyles } from './AppStyles';
 import Details from './components/Details/Details';
 import { AssignmentPage } from "./pages/todo/AssignmentPage";
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { NotFoundPage } from "./pages/notFound/NotFoundPage";
 
 const App = () => {
   const classes = useStyles();
@@ -24,6 +25,7 @@ const App = () => {
               </Route>
               <Route path="/details/:id" element={<Details />} />
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </div>
