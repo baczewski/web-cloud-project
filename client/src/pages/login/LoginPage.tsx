@@ -31,7 +31,7 @@ export const LoginPage = () => {
         response.json().then(data => {
           updateGlobalState(data);
           localStorage.setItem('user', data?.jwt);
-          navigate("/home");
+          navigate("/notes");
         });
       } else if (response.status === 400) {
         setFailedLogin(true);

@@ -1,5 +1,4 @@
 import { IconButton, ListItem } from "@material-ui/core";
-import CloseIcon from '@material-ui/icons/Close';
 import styles from "./Todo.module.css";
 import { DueDate } from "../DueDate/DueDate";
 
@@ -33,7 +32,7 @@ export const Todo = ({ title, description, dueDate, id, loadData }: TodoInterfac
       <DueDate date={new Date(dueDate)}/>
       <div className={deleteButton}>
         <IconButton aria-label="Close" onClick={handleDelete}>
-          <CloseIcon />
+          <h1>X</h1>
         </IconButton>
       </div>
     </ListItem>
