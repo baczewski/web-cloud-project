@@ -15,27 +15,28 @@ const Details = () => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        const user = localStorage.getItem('user') ?? '';
-        
-        const load = async () => {
-            const response = await fetch(`http://localhost:8080/notes/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user}`
-                }
-            });
-
-            const content = await response.json();
-            setNoteDetails(content.note);
-            console.log(content);
-        }
         load();
     }, []);
 
+        
+    const load = async () => {
+        const user = localStorage.getItem('user') ?? '';
+
+        const response = await fetch(`http://localhost:8080/notes/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user}`
+            }
+        });
+
+        const content = await response.json();
+        setNoteDetails(content.note);
+    }
+
     return (
         <Container>
-            { noteDetails ? (
+            { noteDetails.title && noteDetails.description ? (
                 <>
                     <Typography variant='h1' className={classes.wordBreak}>
                         {noteDetails.title}
@@ -44,7 +45,14 @@ const Details = () => {
                         {noteDetails.description}
                     </Typography>
                     <FloatingButton text='Edit' icon={<EditIcon />} changeEvent={setShowModal} />
-                    <EditModal details={noteDetails} updateDetailes={setNoteDetails} open={showModal} onClose={() => setShowModal(false)}/>
+                    {/* feature */}
+                    <EditModal
+                        id={id ?? ''}
+                        details={noteDetails} 
+                        open={showModal} 
+                        onClose={() => setShowModal(false)}
+                        reload={load}
+                    />
                 </>
             ) : <></> }
         </Container>
