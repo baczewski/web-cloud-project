@@ -1,34 +1,51 @@
-import { Box, Container, Typography } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import { useStyles } from './DetailsStyles';
 import FloatingButton from '../FloatingButton/FloatingButton';
 import EditIcon from '@mui/icons-material/Edit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DetailsProps } from './DetailsProps';
+import { useParams } from 'react-router-dom';
 
 const Details = () => {
+    const { id } = useParams();
     const classes = useStyles();
 
     const [edit, setEdit] = useState(false);
+    const [noteDetails, setNoteDetails] = useState({} as DetailsProps);
 
-    const data: DetailsProps = {
-        title: "SADAS",
-        description: "asdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadad"
-    }
+    useEffect(() => {
+        const user = localStorage.getItem('user') ?? '';
+        
+        const load = async () => {
+            const response = await fetch(`http://localhost:8080/notes/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user}`
+                }
+            });
+
+            const content = await response.json();
+            setNoteDetails(content.note);
+            console.log(content);
+        }
+        load();
+    }, []);
 
     return (
-        <>
-            <Container>
-                <Box>
+        <Container>
+            { noteDetails ? (
+                <>
                     <Typography variant='h1' className={classes.wordBreak}>
-                        {data?.title}
+                        {noteDetails.title}
                     </Typography>
                     <Typography variant='body1' className={classes.wordBreak}>
-                        {data?.description}
+                        {noteDetails.description}
                     </Typography>
                     <FloatingButton text='Edit' icon={<EditIcon />} changeEvent={setEdit} />
-                </Box>
-            </Container>
-        </>
+                </>
+            ) : <></> }
+        </Container>
     );
 }
 

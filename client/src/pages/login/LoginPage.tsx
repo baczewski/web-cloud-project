@@ -30,7 +30,7 @@ export const LoginPage = () => {
       if (response.ok) {
         response.json().then(data => {
           updateGlobalState(data);
-          localStorage.setItem('user', data);
+          localStorage.setItem('user', data?.jwt);
           navigate("/home");
         });
       } else if (response.status === 400) {

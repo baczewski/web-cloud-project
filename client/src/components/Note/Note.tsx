@@ -1,23 +1,27 @@
 import { Card, CardActions, CardContent, Typography, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { NoteModel } from '../../pages/home/HomePage';
 
-export const Note = () => {
+export const Note = ({ id, title, description }: NoteModel) => {
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Test
+                    Note
                 </Typography>
                 <Typography variant="h5" component="div">
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Testing
+                    { title ?? '-' }
                 </Typography>
                 <Typography variant="body2">
-                    More testing
+                    { description ?? '-' }
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Button Test</Button>
+                <Link to={`/details/${id}`}>
+                    <Button size="small">Details</Button>
+                </Link>
             </CardActions>
         </Card>
     )
