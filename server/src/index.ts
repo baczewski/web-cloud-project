@@ -4,14 +4,14 @@ import cors from 'cors';
 import cron from 'node-cron'
 import { AppDataSource } from "./data-source";
 import notesRouter from './routes/notes';
-import todoRouter from './routes/todoRoutes';
+import todosRouter from './routes/todos';
 import userRoutes from './routes/users';
 import { fetchAndCheckTodos } from './services/reminder-service';
 
 dotenv.config();
 
 AppDataSource.initialize().then(async () => {
-    app.use('/todos', todoRouter);
+    app.use('/todos', todosRouter);
     app.use('/notes', notesRouter);
     app.use('/', userRoutes);
 });
