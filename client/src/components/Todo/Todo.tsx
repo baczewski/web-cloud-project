@@ -1,6 +1,7 @@
 import { IconButton, ListItem } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import styles from "./Todo.module.css";
+import { DueDate } from "../DueDate/DueDate";
 
 export interface TodoInterface {
   id: string;
@@ -10,25 +11,23 @@ export interface TodoInterface {
 };
 
 export const Todo = ({ title, description, dueDate, id }: TodoInterface) => {
-  const { todoContainer } = styles;
+  const { todoContainer, todoTitle, todoDescription, deleteButton } = styles;
 
   const handleDelete = () => {
-    console.log("delete" + id)
-    // fetch(`http://localhost:8080/todos/${id}`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    // .then(res => res.json());
+    fetch(`http://localhost:8080/todos/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   return (
     <ListItem className={todoContainer}>
-      <div>{title}</div>
-      <div>{description}</div>
-      <div>{dueDate.toString()}</div>
-      <div>
+      <div className={todoTitle}>{title}</div>
+      <div className={todoDescription}>{description}</div>
+      <DueDate date={dueDate}/>
+      <div className={deleteButton}>
         <IconButton aria-label="Close" onClick={handleDelete}>
           <CloseIcon />
         </IconButton>

@@ -20,12 +20,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
-app.use((err: Error, req: Request, res: Response): void => {
-    console.error(err.stack)
-    res.status(500).send('Internal server error.');
-});
-
 app.listen(8080, () => console.log('Listening on port 8080.'));
 
 cron.schedule('0 * * * *', () => 

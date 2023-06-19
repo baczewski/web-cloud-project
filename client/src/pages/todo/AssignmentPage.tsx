@@ -6,7 +6,9 @@ import { Todo, TodoInterface } from "../../components/Todo/Todo";
 export const AssignmentPage = () => {
   const { globalState } = useContext(GlobalContext);
 
-  const [todos, setTodos] = useState<TodoInterface[]>([{id: "asd", title:"1", description:"asd", dueDate: new Date()},{id: "asd", title:"12", description:"asd", dueDate: new Date()}])
+  const fake = [{id: "asd", title:"1", description:"asadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssdasadsssssssssssssssssssssssd", dueDate: new Date()},{id: "asd", title:"12", description:"asd", dueDate: new Date()}]
+
+  const [todos, setTodos] = useState<TodoInterface[]>([])
 
   // useEffect(() => {
   //   fetch("http://localhost:8080/todos", {
