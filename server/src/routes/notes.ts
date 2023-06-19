@@ -53,6 +53,24 @@ notesRouter.post('/', auth, async (req: Request, res: Response) => {
     }
 });
 
+notesRouter.put('/:id', auth, async (req: Request, res: Response) => {
+    const user = currentUser(res);
+    const { id } = req.params;
+    const { title, description } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ error: 'Missing id parameter.' });
+    }
+
+    try {
+        await notesService.editNote({ id, title, description }, user.id);
+        return res.status(200).json({ message: 'Successfully updated a note.' });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: 'Internal server error.' });
+    }
+});
+
 notesRouter.delete('/:id', auth, async (req: Request, res: Response) => {
     const user = currentUser(res);
     const { id } = req.params;

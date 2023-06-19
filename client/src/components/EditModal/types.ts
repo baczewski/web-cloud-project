@@ -1,8 +1,9 @@
 import { DetailsProps } from "../Details/DetailsProps";
 
 export interface EditModalProps {
+  id: string;
   details: DetailsProps;
-  updateDetailes: (details: DetailsProps) => void;
   open: boolean;
   onClose: () => void;
+  reload: () => void;
 };

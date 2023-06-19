@@ -14,6 +14,12 @@ interface GetNoteSchema {
     id: string;
 };
 
+interface EditNoteSchema {
+    id: string;
+    title: string;
+    description: string;
+};
+
 interface GetNotesSchema {
     limit: number;
     offset: number;
@@ -36,6 +42,25 @@ class NotesService {
         });
 
         await NoteEntity.save(createdNote);
+    }
+
+    async editNote(input: EditNoteSchema, userId: string) {
+        const { id, title, description } = input;
+
+        const note = await NoteEntity.findOne({
+            where: { id },
+            relations: { user: true }
+        });
+
+        if (!note) {
+            throw new Error('Note not found.');
+        }
+
+        if (note.user.id !== userId) {
+            throw new Error('Not owner of the note.');
+        }
+
+        return NoteEntity.update({ id }, { title, description });
     }
 
     async deleteNote(input: DeleteNoteSchema, userId: string) {

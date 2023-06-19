@@ -1,14 +1,30 @@
 import { Box, Button, Input, InputLabel, Modal, TextareaAutosize, Typography } from "@material-ui/core";
 import { EditModalProps } from "./types";
 import { useStyles } from "./EditModalStyles";
-import { DetailsProps } from "../Details/DetailsProps";
+import { useState } from "react";
 
-export const EditModal = ({ details, updateDetailes, open, onClose }: EditModalProps) => {
+export const EditModal = ({ id, details, open, onClose, reload }: EditModalProps) => {
+  const [title, setTitle] = useState(details.title ?? '');
+  const [description, setDescription] = useState(details.description ?? ''); 
 
   const classes = useStyles();
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = async (event: React.FormEvent<HTMLInputElement>) => {
+    event.preventDefault();
 
+    const user = localStorage.getItem('user') ?? '';
+
+    await fetch(`http://localhost:8080/notes/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user}`
+      },
+      body: JSON.stringify({ title, description })
+    });
+
+    onClose();
+    reload();
   }
 
   return (
@@ -27,10 +43,9 @@ export const EditModal = ({ details, updateDetailes, open, onClose }: EditModalP
             </InputLabel>
             <Input
               required
-              value={details.title}
+              value={title}
               onChange={(event) => {
-                const newState: DetailsProps = { ...details, title: event.target.value };
-                updateDetailes(newState);
+                setTitle(event.target.value);
               }}
               className={classes.input}
             />
@@ -43,10 +58,9 @@ export const EditModal = ({ details, updateDetailes, open, onClose }: EditModalP
               required
               minRows={4}
               className={classes.textarea}
-              value={details.title}
+              value={description}
               onChange={(event) => {
-                const newState: DetailsProps = { ...details, description: event.target.value };
-                updateDetailes(newState);
+                setDescription(event.target.value);
               }}
             />
           </Box>
