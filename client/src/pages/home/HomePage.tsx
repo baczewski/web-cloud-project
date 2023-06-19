@@ -5,6 +5,7 @@ import { useState } from 'react';
 import CreateModal from '../../components/CreateModal/CreateModal';
 import { Box, Container } from '@material-ui/core';
 import FloatingButton from '../../components/FloatingButton/FloatingButton';
+import { FetchType } from '../../components/CreateModal/types';
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,8 @@ const HomePage = () => {
             <Box>
                 <CreateModal 
                     open={showModal} 
-                    onClose={() => setShowModal(false)} 
+                    onClose={() => setShowModal(false)}
+                    type={FetchType.notes}
                 />
                 <Container className={classes.notesWrapper}>
                     <Note />

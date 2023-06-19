@@ -5,6 +5,7 @@ import HomePage from "./pages/home/HomePage";
 import Layout from './components/Layout/Layout';
 import { useStyles } from './AppStyles';
 import Details from './components/Details/Details';
+import { AssignmentPage } from "./pages/todo/AssignmentPage";
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const App = () => {
@@ -16,10 +17,13 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route element={<PrivateRoute />} >
-            <Route element={<Layout />}>
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/details" element={<Details />} />
+          <Route element={<Layout />}>
+            <Route element={<PrivateRoute />} >
+              <Route element={<Layout />}>
+                <Route path="/assignments" element={<AssignmentPage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/details" element={<Details />} />
+              </Route>
             </Route>
           </Route>
         </Routes>
