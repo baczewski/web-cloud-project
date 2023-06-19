@@ -1,17 +1,16 @@
 import { Request, Response, Router } from 'express';
 import notesService from '../services/notes-service';
-import auth from '../middlewares/auth-middleware';
-
-const user = { id: 0, email: 'test@test.test' };
+import auth, { currentUser } from '../middlewares/auth-middleware';
 
 const notesRouter = Router();
 
-notesRouter.get('/', async (req: Request, res: Response) => {
+notesRouter.get('/', auth, async (req: Request, res: Response) => {
+    const user = currentUser(res);
     const limit = req.query.limit as string ?? 50;
     const offset = req.query.offset as string ?? 0;
 
     try {
-        const notes = await notesService.getAllNotes({ limit: Number(limit), offset: Number(offset) }, user.email);
+        const notes = await notesService.getAllNotes({ limit: Number(limit), offset: Number(offset) }, user.id);
 
         return res.status(200).json({ notes });
     } catch (err) {
@@ -21,6 +20,7 @@ notesRouter.get('/', async (req: Request, res: Response) => {
 });
 
 notesRouter.get('/:id', auth, async (req: Request, res: Response) => {
+    const user = currentUser(res);
     const { id } = req.params;
 
     if (!id) {
@@ -28,7 +28,7 @@ notesRouter.get('/:id', auth, async (req: Request, res: Response) => {
     }
 
     try {
-        const note = await notesService.getNote({ id }, user.email);
+        const note = await notesService.getNote({ id }, user.id);
 
         return res.status(200).json({ note });
     } catch (err) {
@@ -36,7 +36,8 @@ notesRouter.get('/:id', auth, async (req: Request, res: Response) => {
     }
 });
 
-notesRouter.post('/', async (req: Request, res: Response) => {
+notesRouter.post('/', auth, async (req: Request, res: Response) => {
+    const user = currentUser(res);
     const { title, description } = req.body;
 
     if (!(title && description)) {
@@ -44,7 +45,7 @@ notesRouter.post('/', async (req: Request, res: Response) => {
     }
 
     try {
-        await notesService.createNote({ title, description }, user.email);
+        await notesService.createNote({ title, description }, user.id);
 
         return res.status(201).json({ message: 'Created note succesfully.' });
     } catch (err) {
@@ -52,7 +53,8 @@ notesRouter.post('/', async (req: Request, res: Response) => {
     }
 });
 
-notesRouter.delete('/:id', async (req: Request, res: Response) => {
+notesRouter.delete('/:id', auth, async (req: Request, res: Response) => {
+    const user = currentUser(res);
     const { id } = req.params;
 
     if (!id) {
@@ -60,7 +62,7 @@ notesRouter.delete('/:id', async (req: Request, res: Response) => {
     }
 
     try {
-        await notesService.deleteNote({ id }, user.email);
+        await notesService.deleteNote({ id }, user.id);
 
         return res.status(200).json({ message: 'Deleted note succesfully.' });
     } catch (err) {

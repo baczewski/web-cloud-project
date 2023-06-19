@@ -11,13 +11,25 @@ interface UserRegisterSchema {
 
 class UserService {
     async registerUser(input: UserRegisterSchema) {
-      const { email, firstName, lastName, password} = input;
+      const { 
+        email, 
+        firstName, 
+        lastName, 
+        password
+      } = input;
 
       const hashedPassword = bcrypt.hashSync(password, Number(process.env.SALT_ROUNDS) ?? 10);
 
-      const newUser = {email, firstName, lastName, password: hashedPassword, createdAt: new Date(), updatedAt: new Date()};
+      const newUser = {
+        email, 
+        firstName, 
+        lastName, 
+        password: hashedPassword, 
+        createdAt: new Date(), 
+        updatedAt: new Date()
+      } as UserEntity;
 
-      const user = UserEntity.create(newUser as UserEntity);
+      const user = UserEntity.create(newUser);
       UserEntity.save(user);
     }
 
@@ -28,19 +40,16 @@ class UserService {
     }
 
     generateJWT(currentUser: UserEntity) {
+      const { id, email, firstName, lastName } = currentUser;
+
       const tokenBody = {
-        user_id: currentUser.id,
-        email: currentUser.email,
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName
+        user_id: id,
+        email,
+        firstName,
+        lastName
       }
     
-      return jwt.sign(tokenBody,
-        "TINKO",
-        {
-          expiresIn: "8h",
-        }
-      );
+      return jwt.sign(tokenBody, "TINKO", { expiresIn: "8h" });
     }
 
     async findUserByEmail(email: string) {

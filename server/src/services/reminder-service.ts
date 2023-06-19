@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
-import { NoteEntity } from '../entity/NoteEntity';
-import todoService from './todoService';
+import todoService from './todos-service';
 
 const transporter = nodemailer.createTransport({
   service: 'yahoo',

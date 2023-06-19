@@ -20,10 +20,10 @@ interface GetNotesSchema {
 };
 
 class NotesService {
-    async createNote(input: NoteInputSchema, email: string) {
+    async createNote(input: NoteInputSchema, userId: string) {
         const { title, description } = input;
 
-        const user = await UserEntity.findOneBy({ email });
+        const user = await UserEntity.findOneBy({ id: userId });
 
         if (!user) {
             throw new Error('User not found.');
@@ -38,7 +38,7 @@ class NotesService {
         await NoteEntity.save(createdNote);
     }
 
-    async deleteNote(input: DeleteNoteSchema, email: string) {
+    async deleteNote(input: DeleteNoteSchema, userId: string) {
         const { id } = input;
 
         const note = await NoteEntity.findOne({
@@ -50,17 +50,17 @@ class NotesService {
             throw new Error('Note not found.');
         }
 
-        if (note.user.email !== email) {
+        if (note.user.id !== userId) {
             throw new Error('Not owner of the note.');
         }
 
         await NoteEntity.delete(id);
     }
 
-    async getAllNotes(input: GetNotesSchema , email: string) {
+    async getAllNotes(input: GetNotesSchema, userId: string) {
         const { limit, offset } = input;
 
-        const userData = await UserEntity.findOneBy({ email });
+        const userData = await UserEntity.findOneBy({ id: userId });
 
         if (!userData) {
             throw new Error('User not found.');
@@ -69,31 +69,17 @@ class NotesService {
         const notes = await NoteEntity
             .createQueryBuilder('note')
             .innerJoinAndSelect('note.user', 'user')
-            .where('user.email = :email')
+            .where('user.id = :userId')
             .skip(offset)
             .take(limit)
-            .setParameters({ email })
+            .setParameters({ userId })
             .getMany();
 
         return notes;
     }
 
-    async getNote(input: GetNoteSchema, email: string) {
+    async getNote(input: GetNoteSchema, userId: string) {
         const { id } = input;
-
-        // not sure about this
-
-        // const user = await UserEntity.findOneBy({ email });
-
-        // if (!user) {
-        //     throw new Error('User not found.');
-        // }
-
-        // const note = await createQueryBuilder('note')
-        //     .leftJoinAndSelect('note.user', 'user')
-        //     .select(['note.title', 'note.description', 'user.email'])
-        //     .where('note.id = :id', { id })
-        //     .getRawOne();
 
         const note = await NoteEntity.findOne({
             where: { id },
@@ -104,7 +90,7 @@ class NotesService {
             throw new Error('Note not found');
         }
 
-        if (note.user.email !== email) {
+        if (note.user.id !== userId) {
             throw new Error('Not owner of the note.');
         }
 
