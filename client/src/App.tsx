@@ -8,6 +8,7 @@ import Details from './components/Details/Details';
 import { AssignmentPage } from "./pages/todo/AssignmentPage";
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { NotFoundPage } from "./pages/notFound/NotFoundPage";
+import PublicRoute from './components/PublicRoute/PublicRoute';
 
 const App = () => {
   const classes = useStyles();
@@ -16,8 +17,10 @@ const App = () => {
     <div className={classes.root}>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route element={<PublicRoute />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Route>
             <Route element={<Layout />}>
               <Route element={<PrivateRoute />} >
                 <Route path="/assignments" element={<AssignmentPage />} />
