@@ -8,7 +8,7 @@ import { Typography } from "@material-ui/core";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
-  const { container, registerContainer, login, loginLink, failedRegisterText } = styles;
+  const { container, registerContainer, login, loginLink, failedRegisterText, button } = styles;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -44,7 +44,7 @@ export const RegisterPage = () => {
   return (
     <div className={container}>
       <form className={registerContainer}>
-        <Typography variant="h5" style={{ color: "white" }}>Register here</Typography>
+        <Typography variant="h5">Register here</Typography>
         {failedRegister &&
           <div className={failedRegisterText}>Email is already in use</div>
         }
@@ -78,7 +78,7 @@ export const RegisterPage = () => {
         />
         <Button
           variant="contained"
-          style={{ backgroundColor: "white", color: "black", width: "50%", alignSelf: "center" }}
+          className={button}
           onClick={(event) => {
             if (!firstName || !lastName || !password || !email) {
               setEnableWarning(true);
