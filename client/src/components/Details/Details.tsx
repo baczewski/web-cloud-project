@@ -1,17 +1,32 @@
-import { Container, InputLabel } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
+import { useStyles } from './DetailsStyles';
+import FloatingButton from '../FloatingButton/FloatingButton';
+import EditIcon from '@mui/icons-material/Edit';
+import { useState } from 'react';
+import { DetailsProps } from './DetailsProps';
 
-interface DetailsProps {
-    title: string
-}
+const Details = () => {
+    const classes = useStyles();
 
-const Details = (props?: DetailsProps) => {
+    const [edit, setEdit] = useState(false);
+
+    const data: DetailsProps = {
+        title: "SADAS",
+        description: "asdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadadasdddddddddsdadassdaadad"
+    }
 
     return (
         <>
             <Container>
-                <InputLabel>
-                    Title
-                </InputLabel>
+                <Box>
+                    <Typography variant='h1' className={classes.wordBreak}>
+                        {data?.title}
+                    </Typography>
+                    <Typography variant='body1' className={classes.wordBreak}>
+                        {data?.description}
+                    </Typography>
+                    <FloatingButton text='Edit' icon={<EditIcon />} changeEvent={setEdit} />
+                </Box>
             </Container>
         </>
     );

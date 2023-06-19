@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { InputField } from "../../components/InputField/InputField";
 import { Button } from "@mui/material";
-import { Link, useNavigate, useNavigation, useRoutes } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./RegisterPage.module.css";
+import { Typography } from "@material-ui/core";
 
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
-  const { container, registerContainer, login, loginLink }  = styles;
+  const { container, registerContainer, login, loginLink, failedRegisterText } = styles;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -25,16 +26,15 @@ export const RegisterPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({firstName, lastName, email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
       });
 
       if (response.ok) {
-        // Registration successful, handle the response as needed
+        setFailedRegister(false);
         navigate("/login");
         console.log("Registration successful");
-      } else {
-        window.alert("FAILED TO REGISTER")
-        console.log("Registration failed");
+      } else if (response.status === 409) {
+        setFailedRegister(true);
       }
     } catch (error) {
       console.error("Error occurred during registration:", error);
@@ -44,6 +44,10 @@ export const RegisterPage = () => {
   return (
     <div className={container}>
       <form className={registerContainer}>
+        <Typography variant="h5" style={{ color: "white" }}>Register here</Typography>
+        {failedRegister &&
+          <div className={failedRegisterText}>Email is already in use</div>
+        }
         <InputField
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setFirstName(event.target.value)}
           placeholder="First Name"

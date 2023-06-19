@@ -9,10 +9,11 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const { updateGlobalState } = useContext(GlobalContext);
 
-  const { container, loginContainer, register, registerLink }  = styles;
+  const { container, loginContainer, register, registerLink, failedLoginText } = styles;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [failedLogin, setFailedLogin] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,15 +24,16 @@ export const LoginPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
-        // Registration successful, handle the response as needed
-        response.json().then(data => updateGlobalState(data));
-        navigate("/home");
-      } else {
-        window.alert("FAILED TO LOGIN")
+        response.json().then(data => {
+          updateGlobalState(data);
+          navigate("/home");
+        });
+      } else if (response.status === 400) {
+        setFailedLogin(true);
       }
     } catch (error) {
       console.error("Error occurred during registration:", error);
@@ -41,6 +43,9 @@ export const LoginPage = () => {
   return (
     <div className={container}>
       <form className={loginContainer}>
+        {failedLogin &&
+          <div className={failedLoginText}>Email or password is invalid</div>
+        }
         <InputField
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setEmail(event.target.value)}
           placeholder="Email"
