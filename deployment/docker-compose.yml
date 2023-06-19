@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+
+  client:
+    hostname: client
+    container_name: react
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    image: react
+    ports: 
+      - 3000:3000
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+      - server
+    restart: unless-stopped
+
+  server:
+    hostname: server
+    container_name: express-server
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    image: server
+    env_file:
+      - ../server/.env.sample
+    ports: 
+      - 8080:8080
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passw0rd
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
