@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import CreateModal from '../../components/CreateModal/CreateModal';
 import { Box, Container, Typography } from '@material-ui/core';
 import FloatingButton from '../../components/FloatingButton/FloatingButton';
+import { FetchType } from '../../components/CreateModal/types';
 
 export interface NoteModel {
     id: string;
@@ -40,7 +41,8 @@ const HomePage = () => {
             <Box>
                 <CreateModal 
                     open={showModal} 
-                    onClose={() => setShowModal(false)} 
+                    onClose={() => setShowModal(false)}
+                    type={FetchType.notes}
                 />
                 { notes.length ? (
                     <Container className={classes.notesWrapper}>
