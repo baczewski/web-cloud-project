@@ -17,4 +17,7 @@ export class TodoEntity extends AbstractBaseEntity {
     @Column({ nullable: false })
     dueDate!: Date
 
+    @Column({ nullable: false, default: false})
+    competed!: boolean
+
 }
