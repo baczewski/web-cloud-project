@@ -20,31 +20,32 @@ const HomePage = () => {
     const classes = useStyles();
 
     useEffect(() => {
-        const user = localStorage.getItem('user') ?? '';
-
-        const load = async () => {
-            const response = await fetch('http://localhost:8080/notes', {
-               method: 'GET',
-               headers: {
-                'Authorization': `Bearer ${user}`
-               } 
-            });
-
-            const notes = await response.json();
-            setNotes(notes.notes);
-        };
-
         load();
     }, []);
 
+    const load = async () => {
+        const user = localStorage.getItem('user') ?? '';
+
+        const response = await fetch('http://localhost:8080/notes', {
+           method: 'GET',
+           headers: {
+            'Authorization': `Bearer ${user}`
+           } 
+        });
+
+        const notes = await response.json();
+        setNotes(notes.notes);
+    };
+
     return (
             <Box>
-                <CreateModal 
+                <CreateModal
+                    load={load}
                     open={showModal} 
                     onClose={() => setShowModal(false)}
                     type={FetchType.notes}
                 />
-                { notes.length ? (
+                { notes && notes.length ? (
                     <Container className={classes.notesWrapper}>
                         { notes.map(({ id, title, description }) => (
                             <Note key={id} id={id} title={title} description={description} />

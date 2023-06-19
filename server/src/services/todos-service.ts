@@ -38,6 +38,17 @@ class TodoService {
         });
     }
 
+    public async triggerCheckedById(id: string, userId: string, checked: boolean): Promise<UpdateResult> {
+        return TodoEntity.update({
+            id,
+            user: {
+                id: userId
+            }
+        }, {
+            completed: checked
+        }); 
+    }
+
     public async findById(id: string): Promise<TodoEntity | null> {
         return TodoEntity.findOneBy({
             id: id

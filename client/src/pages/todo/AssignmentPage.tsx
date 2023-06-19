@@ -29,15 +29,16 @@ export const AssignmentPage = () => {
       .then(todos => setTodos(todos.todos))
   }
 
-  console.log(todos);
-
   return (
     <Box>
       <h2>TODO List</h2>
-      <List>
-        {todos.map((todo) => <Todo {...todo} loadData={load}/>)}
-      </List>
+      { todos ? (
+        <List>
+          {todos.map((todo) => <Todo key={todo.id} {...todo} loadData={load} />)}
+        </List>
+      ) : null }
       <CreateModal
+        load={load}
         open={showModal}
         onClose={() => setShowModal(false)}
         hasDateInput
