@@ -17,7 +17,13 @@ userRoutes.post("/register", async (req: Request, res: Response) => {
   }
 
  try {
-    await userService.registerUser({email, password, lastName, firstName});
+    await userService.registerUser({
+      email, 
+      password, 
+      lastName, 
+      firstName
+    });
+
     return res.status(201).end();
  } catch (ex) {
     return res.status(500).json({ message: ex })
@@ -33,7 +39,6 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
 
   const currentUser = await userService.findUserByEmail(email);
 
-  console.log(currentUser);
   if (currentUser.length === 0) {
     return res.status(400).json({ message: "Not valid email or password" });
   }
@@ -46,7 +51,7 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
 
   const jwt = userService.generateJWT(currentUser[0]);
 
-  return res.status(200).json({ jwt: jwt });
+  return res.status(200).json({ jwt });
 });
 
 export default userRoutes;
