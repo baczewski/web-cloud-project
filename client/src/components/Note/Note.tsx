@@ -4,7 +4,7 @@ import { NoteModel } from '../../pages/home/HomePage';
 
 export const Note = ({ id, title, description }: NoteModel) => {
     return (
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{ minWidth: 275, maxWidth: '20%' }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     Note
@@ -14,7 +14,7 @@ export const Note = ({ id, title, description }: NoteModel) => {
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     { title ?? '-' }
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" style={{ wordBreak: 'break-all' }}>
                     { description ?? '-' }
                 </Typography>
             </CardContent>
