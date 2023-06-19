@@ -1,5 +1,7 @@
 import { Box, Button, Input, InputLabel, Modal, TextareaAutosize, Typography, makeStyles } from "@material-ui/core";
 import { Fragment, useState } from "react";
+import { DatePicker } from '@mui/x-date-pickers';
+import { CreateModalProps } from "./types";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -47,14 +49,10 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-interface CreateModalProps {
-    open: boolean;
-    onClose: () => void;
-};
-
-const CreateModal = ({ open, onClose }: CreateModalProps) => {
+const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalProps) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState<Date | null>();
 
     const classes = useStyles();
 
@@ -62,21 +60,23 @@ const CreateModal = ({ open, onClose }: CreateModalProps) => {
         setTitle('');
         setDescription('');
         onClose();
-    } 
+    }
 
     const handleOnSubmit = async () => {
-        const response = await fetch('http://localhost:8080/notes', {
+        const body = hasDateInput ? {title, dueDate, description} : {title, description};
+
+        const response = await fetch(`http://localhost:8080/${type}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, description })
+            body: JSON.stringify(body)
         });
 
         if (response.ok) {
             handleOnClose();
         } else {
-            window.alert('Failed to create a note.');
+            window.alert(`Failed to create a ${type}.`);
         }
     }
 
@@ -88,7 +88,7 @@ const CreateModal = ({ open, onClose }: CreateModalProps) => {
             >
                 <Box className={classes.wrapper} component='form' onSubmit={handleOnSubmit}>
                     <Typography color="primary" className={classes.header}>
-                        Create a note
+                        {`Create a ${type}`}
                     </Typography>
                     <Box className={classes.inputWrapper}>
                         <InputLabel className={classes.inputLabel}>
@@ -107,14 +107,21 @@ const CreateModal = ({ open, onClose }: CreateModalProps) => {
                         </InputLabel>
                         <TextareaAutosize
                             required
-                            minRows={4} 
-                            className={classes.textarea} 
+                            minRows={4}
+                            className={classes.textarea}
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                         />
                     </Box>
-                    <Button 
-                        color="primary" 
+                    {hasDateInput &&
+                        <DatePicker
+                            label="Controlled picker"
+                            value={dueDate}
+                            onChange={(newValue) => setDueDate(newValue)}
+                        />
+                    }
+                    <Button
+                        color="primary"
                         className={classes.button}
                         type='submit'
                     >

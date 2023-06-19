@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import notesService from '../services/notes-service';
+import auth from '../middlewares/auth-middleware';
 
 const user = { id: 0, email: 'test@test.test' };
 
@@ -19,7 +20,7 @@ notesRouter.get('/', async (req: Request, res: Response) => {
     }
 });
 
-notesRouter.get('/:id', async (req: Request, res: Response) => {
+notesRouter.get('/:id', auth, async (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!id) {

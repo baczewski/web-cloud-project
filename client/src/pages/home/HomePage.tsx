@@ -1,26 +1,60 @@
 import { Note } from '../../components/Note/Note';
 import { useStyles } from './HomePageStyles';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateModal from '../../components/CreateModal/CreateModal';
-import { Box, Container } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import FloatingButton from '../../components/FloatingButton/FloatingButton';
+import { FetchType } from '../../components/CreateModal/types';
+
+export interface NoteModel {
+    id: string;
+    title: string;
+    description: string;
+};
 
 const HomePage = () => {
-  const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [notes, setNotes] = useState([] as NoteModel[]);
 
-  const classes = useStyles();
+    const classes = useStyles();
+
+    useEffect(() => {
+        const user = localStorage.getItem('user') ?? '';
+
+        const load = async () => {
+            const response = await fetch('http://localhost:8080/notes', {
+               method: 'GET',
+               headers: {
+                'Authorization': `Bearer ${user}`
+               } 
+            });
+
+            const notes = await response.json();
+            setNotes(notes.notes);
+        };
+
+        load();
+    }, []);
 
     return (
             <Box>
                 <CreateModal 
                     open={showModal} 
-                    onClose={() => setShowModal(false)} 
+                    onClose={() => setShowModal(false)}
+                    type={FetchType.notes}
                 />
-                <Container className={classes.notesWrapper}>
-                    <Note />
-                    <Note /><Note /><Note /><Note /><Note /><Note /><Note /><Note /><Note />
-                </Container>
+                { notes.length ? (
+                    <Container className={classes.notesWrapper}>
+                        { notes.map(({ id, title, description }) => (
+                            <Note key={id} id={id} title={title} description={description} />
+                        )) }
+                    </Container>
+                ) : (
+                    <Typography>
+                        There are no any notes
+                    </Typography>
+                ) }
                 <FloatingButton text='Add Note' icon={<AddIcon />} changeEvent={setShowModal} />
             </Box>
     );

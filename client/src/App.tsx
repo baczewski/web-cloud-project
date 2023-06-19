@@ -5,7 +5,9 @@ import HomePage from "./pages/home/HomePage";
 import Layout from './components/Layout/Layout';
 import { useStyles } from './AppStyles';
 import Details from './components/Details/Details';
+import { AssignmentPage } from "./pages/todo/AssignmentPage";
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { NotFoundPage } from "./pages/notFound/NotFoundPage";
 
 const App = () => {
   const classes = useStyles();
@@ -16,12 +18,14 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route element={<PrivateRoute />} >
             <Route element={<Layout />}>
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/details" element={<Details />} />
+              <Route element={<PrivateRoute />} >
+                <Route path="/assignments" element={<AssignmentPage />} />
+                <Route path="/notes" element={<HomePage />} />
+              </Route>
+              <Route path="/details/:id" element={<Details />} />
             </Route>
-          </Route>
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </div>
