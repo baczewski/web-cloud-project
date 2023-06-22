@@ -63,7 +63,7 @@ export const LoginPage = () => {
           variant="contained"
           onClick={(event) => {
             if (!password || !email) {
-              window.alert("POPULNI")
+              setFailedLogin(true);
               return;
             }
 
