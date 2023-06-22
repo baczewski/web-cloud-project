@@ -10,6 +10,8 @@ import NotesIcon from '@mui/icons-material/Notes';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { makeStyles } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { GlobalContext } from '../../context/AppContext';
 
 const useStyles = makeStyles(() => ({
     drawer: {
@@ -45,6 +47,7 @@ const useStyles = makeStyles(() => ({
 const SideNav = () => {
     const navigate = useNavigate();
     const classes = useStyles();
+    const context = useContext(GlobalContext);
 
     return (
         <>
@@ -57,6 +60,7 @@ const SideNav = () => {
                         className={classes.logout}
                         onClick={() => {
                             localStorage.clear();
+                            context.updateGlobalState({ jwt: '' });
                             navigate('/login');
                         }}
                     >Logout</div>

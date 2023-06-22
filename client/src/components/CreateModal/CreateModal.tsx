@@ -48,7 +48,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalProps) => {
+const CreateModal = ({ open, onClose, type, hasDateInput = false, load }: CreateModalProps) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState<string>();
@@ -79,6 +79,7 @@ const CreateModal = ({ open, onClose, type, hasDateInput = false }: CreateModalP
 
         if (response.ok) {
             handleOnClose();
+            load();
         } else {
             window.alert(`Failed to create a ${type}.`);
         }

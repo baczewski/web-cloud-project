@@ -1,7 +1,7 @@
 .container {
   width: 100vw;
   height: 100vh;
-  background-color: #353535;
+  background-color: #f3efef;
 }
 
 .loginContainer {
@@ -15,15 +15,15 @@
   border: 2px black solid;
   padding: 5rem;
   width: 35%;
-  background-color: #2c2c2c;
+  background-color: #d6d6d6;
 }
 
 .register {
-  color: #fff;
+  color: #000000;
 }
 
 .registerLink {
-  color: yellow;
+  color: #1e3ada;
 }
 
 .register-link:hover {
@@ -32,4 +32,9 @@
 
 .failedLoginText {
   color: red;
+}
+
+.button {
+  width: 50%;
+  align-self: center; 
 }

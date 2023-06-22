@@ -8,4 +8,5 @@ export interface CreateModalProps {
   onClose: () => void;
   hasDateInput?: boolean;
   type: FetchType;
+  load: () => void;
 };

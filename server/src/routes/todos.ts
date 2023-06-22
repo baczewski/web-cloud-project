@@ -63,6 +63,20 @@ todoRouter.put('/:id', auth, async (req: Request, res: Response, next: NextFunct
     }
 });
 
+todoRouter.put('/check/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
+    const user = currentUser(res);
+    const { checked } = req.body;
+    const { id } = req.params;
+
+    try {
+        await todoService.triggerCheckedById(id, user.id, !checked);
+        return res.status(200).json({ message: 'Successfully updated a todo.' });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+
 todoRouter.delete('/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     const user = currentUser(res);
     const { id } = req.params;
