@@ -6,6 +6,8 @@ import CreateModal from '../../components/CreateModal/CreateModal';
 import { Box, Container, Typography } from '@material-ui/core';
 import FloatingButton from '../../components/FloatingButton/FloatingButton';
 import { FetchType } from '../../components/CreateModal/types';
+import { httpService } from '../../service/httpService';
+import { notesService } from '../../service/notesService';
 
 export interface NoteModel {
     id: string;
@@ -24,17 +26,8 @@ const HomePage = () => {
     }, []);
 
     const load = async () => {
-        const user = localStorage.getItem('user') ?? '';
-
-        const response = await fetch('http://localhost:8080/notes', {
-           method: 'GET',
-           headers: {
-            'Authorization': `Bearer ${user}`
-           } 
-        });
-
-        const notes = await response.json();
-        setNotes(notes.notes);
+        const { notes } = await notesService.loadNotes();
+        setNotes(notes);
     };
 
     return (

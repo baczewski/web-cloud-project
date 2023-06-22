@@ -2,6 +2,7 @@ import { Checkbox, IconButton, ListItem } from "@material-ui/core";
 import styles from "./Todo.module.css";
 import { DueDate } from "../DueDate/DueDate";
 import { useState } from "react";
+import { todosService } from "../../service/todosService";
 
 export interface TodoInterface {
   id: string;
@@ -16,29 +17,20 @@ export const Todo = ({ title, description, dueDate, id, completed, loadData }: T
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(completed);
   const { todoContainer, todoTitle, todoDescription, deleteButton } = styles;
 
-  const handleDelete = () => {
-    const user = localStorage.getItem('user') ?? '';
+  const handleDelete = async () => {
+    await todosService.deleteTodo(id);
 
-    fetch(`http://localhost:8080/todos/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${user}`
-      }
-    }).then(() => loadData?.());
+    if (loadData) {
+      loadData();
+    }
   }
 
-  const handleTriggerCheck = () => {
-    const user = localStorage.getItem('user') ?? '';
+  const handleTriggerCheck = async () => {
+    await todosService.toggleCheckTodo(id, isCheckboxChecked);
 
-    fetch(`http://localhost:8080/todos/check/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${user}`
-      },
-      body: JSON.stringify({ checked: isCheckboxChecked })
-    }).then(() => loadData?.());
+    if (loadData) {
+      loadData();
+    }
   }
 
   const handleOnCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

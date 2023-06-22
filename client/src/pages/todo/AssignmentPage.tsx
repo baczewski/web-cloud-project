@@ -6,6 +6,7 @@ import FloatingButton from "../../components/FloatingButton/FloatingButton";
 import AddIcon from '@mui/icons-material/Add';
 import CreateModal from "../../components/CreateModal/CreateModal";
 import { FetchType } from "../../components/CreateModal/types";
+import { todosService } from "../../service/todosService";
 
 export const AssignmentPage = () => {
   const [todos, setTodos] = useState<TodoInterface[]>([]);
@@ -15,18 +16,9 @@ export const AssignmentPage = () => {
     load();
   }, []);
 
-  const load = () => {
-    const user = localStorage.getItem('user') ?? '';
-
-    fetch("http://localhost:8080/todos", {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user}`
-        },
-      })
-      .then(res => res.json())
-      .then(todos => setTodos(todos.todos))
+  const load = async () => {
+    const { todos } = await todosService.loadTodos();
+    setTodos(todos);
   }
 
   return (

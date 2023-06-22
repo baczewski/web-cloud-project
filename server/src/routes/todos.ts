@@ -83,7 +83,7 @@ todoRouter.delete('/:id', auth, async (req: Request, res: Response, next: NextFu
 
     try {
         await todoService.deleteByIdAndUserId(id, user.id);
-        return res.status(204).json({ message: 'Successfully deleted a todo.' });
+        return res.status(200).json({ message: 'Successfully deleted a todo.' });
     } catch (err) {
         console.log(err);
         next();
