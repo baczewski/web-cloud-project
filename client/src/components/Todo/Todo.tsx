@@ -15,7 +15,7 @@ export interface TodoInterface {
 
 export const Todo = ({ title, description, dueDate, id, completed, loadData }: TodoInterface) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(completed);
-  const { todoContainer, todoTitle, todoDescription, deleteButton } = styles;
+  const { todoContainer, todoTitle, completedTask, greenBackground, todoDescription, deleteButton } = styles;
 
   const handleDelete = async () => {
     await todosService.deleteTodo(id);
@@ -39,12 +39,14 @@ export const Todo = ({ title, description, dueDate, id, completed, loadData }: T
   }
 
   return (
-    <ListItem className={todoContainer}>
+    <ListItem 
+      className={`${todoContainer} ${completed ? greenBackground : null}`}
+    >
       <Checkbox 
         checked={completed} 
         onChange={handleOnCheckboxChange} 
       />
-      <div className={todoTitle}>{title}</div>
+      <div className={`${todoTitle} ${completed ? completedTask : null}`}>{title}</div>
       <div className={todoDescription}>{description}</div>
       <DueDate date={new Date(dueDate)}/>
       <div className={deleteButton}>

@@ -25,3 +25,11 @@
 .deleteButton {
   margin-left: 20%;
 }
+
+.completedTask {
+  text-decoration: line-through;
+}
+
+.greenBackground {
+  background-color: #a1d485;
+}
