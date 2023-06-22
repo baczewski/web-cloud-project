@@ -6,6 +6,12 @@ import styles from "./RegisterPage.module.css";
 import { Typography } from "@material-ui/core";
 
 
+const validateEmail = (email: string) => {
+  var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  return emailPattern.test(email);
+};
+
 export const RegisterPage = () => {
   const navigate = useNavigate();
   const { container, registerContainer, login, loginLink, failedRegisterText } = styles;
@@ -74,13 +80,13 @@ export const RegisterPage = () => {
           placeholder="E-mail"
           type="text"
           value={email}
-          enableWarning={enableWarning && email === ""}
+          enableWarning={enableWarning && email === "" && !validateEmail(email)}
         />
         <Button
           variant="contained"
           style={{ backgroundColor: "white", color: "black", width: "50%", alignSelf: "center" }}
           onClick={(event) => {
-            if (!firstName || !lastName || !password || !email) {
+            if (!firstName || !lastName || !password || !email || !validateEmail(email)) {
               setEnableWarning(true);
               return;
             }
